@@ -17,7 +17,7 @@ import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { StudentsComponent } from './students/students.component';
 import { PaymentsComponent } from './payments/payments.component';
-import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from "@angular/material/card";
+import {MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardTitle} from "@angular/material/card";
 import {MatDivider} from "@angular/material/divider";
 import { LoadStudentsComponent } from './load-students/load-students.component';
 import { LoadPaymentsComponent } from './load-payments/load-payments.component';
@@ -33,6 +33,10 @@ import {
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort, MatSortHeader} from "@angular/material/sort";
 import {MatFormField, MatInput, MatLabel} from "@angular/material/input";
+import {ReactiveFormsModule} from "@angular/forms";
+import {AuthGuard} from "./guards/auth.guard";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {AuthorizationGuard} from "./guards/authorization.guard";
 
 @NgModule({
   declarations: [
@@ -77,10 +81,13 @@ import {MatFormField, MatInput, MatLabel} from "@angular/material/input";
     MatSortHeader,
     MatInput,
     MatFormField,
-    MatLabel
+    MatLabel,
+    ReactiveFormsModule,
+    MatCardActions,
+    BrowserAnimationsModule
   ],
   providers: [
-    provideAnimationsAsync()
+    AuthGuard,AuthorizationGuard
   ],
   bootstrap: [AppComponent]
 })

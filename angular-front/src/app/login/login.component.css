@@ -1,0 +1,16 @@
+mat-form-field{
+  display: block;
+}
+.login-container{
+  margin-top: 10px ;
+  width: 600px;
+  justify-content: center;
+}
+.login-button{
+  width: 300px;
+  height: 50px
+}
+
+mat-card-actions{
+  justify-content: center
+}
