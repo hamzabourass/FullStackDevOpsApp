@@ -16,7 +16,7 @@ export class StudentDetailsComponent implements OnInit{
   public payments!: Array<Payment>;
   studentCode! : string;
   dataSource! : MatTableDataSource<Payment>;
-  public displayedColumns = ['id','date','amount','type','status','firstName'];
+  public displayedColumns = ['id','date','amount','type','status','firstName','details'];
   @ViewChild(MatPaginator) paginator! : MatPaginator;
   @ViewChild(MatSort) sort! : MatSort;
   constructor(private activatedRoute: ActivatedRoute, private studentsService : StudentsService,private router : Router) {
@@ -40,5 +40,9 @@ export class StudentDetailsComponent implements OnInit{
   newPayment() {
     this.studentCode = this.activatedRoute.snapshot.params['code'];
     this.router.navigateByUrl(`/admin/new-payment/${this.studentCode}`)
+  }
+
+  paymentDetails(payment: Payment) {
+    this.router.navigateByUrl(`/admin/payment-details/${payment.id}`)
   }
 }
