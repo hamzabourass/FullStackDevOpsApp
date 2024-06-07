@@ -1,0 +1,31 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Login to AWS ECR
+        run: |
+          aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 714714593268.dkr.ecr.us-east-1.amazonaws.com
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Build and Push Docker Image
+        run: |
+          docker build -t 714714593268.dkr.ecr.us-east-1.amazonaws.com/spring-angular:frontend_latest ./angular-front
+          docker build -t 714714593268.dkr.ecr.us-east-1.amazonaws.com/spring-angular:backend_latest ./backend-students-app
+          docker push 714714593268.dkr.ecr.us-east-1.amazonaws.com/spring-angular:frontend_latest
+          docker push 714714593268.dkr.ecr.us-east-1.amazonaws.com/spring-angular:backend_latest
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
