@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-
+  tiles = [
+    { label: 'Students', imgSrc: 'assets/images/students.png', link: '/admin/students' },
+    { label: 'Payments', imgSrc: 'images/payments.png', link: '/admin/payments' },
+    { label: 'Dashboard', imgSrc: 'images/dashboard.png', link: '/admin/dashboard' },
+    { label: 'Profile', imgSrc: 'images/profile.png', link: '/admin/profile' },
+  ];
 }

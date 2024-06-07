@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit{
     let password = this.loginFormGroup.value.password;
     const b = this.authService.login(username,password);
     if(b){
-      this.router.navigateByUrl('/admin').then(r => console.log("logged"));
+      this.router.navigateByUrl('/admin/home').then(r => console.log("logged"));
     }
   }
 }

@@ -1,14 +1,10 @@
 <div class="container">
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>
-        Home Page
-      </mat-card-title>
-    </mat-card-header>
-    <mat-divider></mat-divider>
-    <mat-card-content>
-      Home content
-    </mat-card-content>
-  </mat-card>
+  <mat-grid-list cols="2" rowHeight="2:1" gutterSize="16px">
+    <mat-grid-tile *ngFor="let tile of tiles">
+      <a [routerLink]="tile.link">
+        <img src="https://i.pinimg.com/564x/cd/ee/e0/cdeee031ff4869bd55626847c074d16a.jpg" alt="{{ tile.label }}" class="tile-image">
+        <div class="tile-label">{{ tile.label }}</div>
+      </a>
+    </mat-grid-tile>
+  </mat-grid-list>
 </div>
-

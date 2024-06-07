@@ -1,0 +1,39 @@
+services:
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: student_db
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin-root
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend-students-app:
+    build: ./backend-students-app
+    container_name: backend-app
+    ports:
+      - "8787:8787"
+    expose:
+      - "8787"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/student_db
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin-root
+      SPRING_JPA_HIBERNATE_DDL_AUTO: create
+      SPRING_H2_CONSOLE_ENABLED: true
+      SERVER_PORT: 8787
+      SPRING_MVC_FORMAT_DATE: d/M/yyyy
+    depends_on:
+      - postgres
+  front-end-angular:
+    build: ./angular-front
+    container_name: angular-front
+    ports:
+      - '4200:80'
+    expose:
+      - '4200'
+
+volumes:
+  postgres_data:
