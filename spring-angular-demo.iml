@@ -5,6 +5,7 @@
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/frontend-angular/dist" />
       <excludeFolder url="file://$MODULE_DIR$/frontend-angular/tmp" />
+      <excludeFolder url="file://$MODULE_DIR$/terraform/sonarqube-ec2/.terraform" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
