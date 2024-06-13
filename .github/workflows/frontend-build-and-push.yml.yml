@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'angular-front/**'
+      - 'docker-compose.yml'
 
 jobs:
   build-and-push:
