@@ -10,6 +10,7 @@ resource "aws_instance" "tools" {
 
   root_block_device {
     volume_size = 30
+    encrypted = true
   }
 }
 

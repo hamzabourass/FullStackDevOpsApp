@@ -6,6 +6,9 @@ on:
       - main
     paths:
       - 'angular-front/**'
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build-and-push:
@@ -13,7 +16,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Login to AWS ECR
         run: |
@@ -29,3 +32,24 @@ jobs:
           docker push $IMAGE_TAG
           echo "::set-output name=image_tag::$IMAGE_TAG"
         id: build-and-push
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@0.20.0
+        with:
+          image-ref: ${{ steps.build-and-push.outputs.image_tag }}
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
+      - name: Print Trivy Action Logs
+        if: always() # This step runs only if the previous step fails
+        run: cat trivy-results.sarif
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+      # Optional: Clean up Docker images
+      - name: Clean up Docker images
+        if: always()
+        run: docker rmi ${{ steps.build-and-push.outputs.image_tag }}
