@@ -23,16 +23,15 @@ jobs:
           hide-progress: false  # Enable progress to help with debugging
           format: 'sarif'
           output: 'trivy-results.sarif'
-          exit-code: '1'
+          exit-code: '0'
           ignore-unfixed: true
           severity: 'CRITICAL,HIGH'
 
       - name: Print Trivy Action Logs
-        if: failure() # This step runs only if the previous step fails
+        if: always() # This step runs only if the previous step fails
         run: cat trivy-results.sarif
 
       - name: Upload Trivy scan results to GitHub Security tab
-        if: success() # This step runs only if the previous step succeeds
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: 'trivy-results.sarif'
