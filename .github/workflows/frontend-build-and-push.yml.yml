@@ -28,7 +28,7 @@ jobs:
       - name: Build and Push Docker Image
         run: |
           IMAGE_TAG=714714593268.dkr.ecr.us-east-1.amazonaws.com/spring-angular:frontend_latest
-          docker build -t $IMAGE_TAG .
+          docker build -t $IMAGE_TAG ./angular-front
           docker push $IMAGE_TAG
           echo "::set-output name=image_tag::$IMAGE_TAG"
         id: build-and-push
