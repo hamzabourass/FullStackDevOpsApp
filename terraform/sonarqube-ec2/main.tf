@@ -1,7 +1,7 @@
-resource "aws_instance" "web" {
+resource "aws_instance" "tools" {
   ami                    = "ami-04b70fa74e45c3917"   #change ami id for different region
   instance_type          = "t2.medium"
-  vpc_security_group_ids = [aws_security_group.Jenkins-sg.id]
+  vpc_security_group_ids = [aws_security_group.tools-sg.id]
   user_data              = templatefile("./install.sh", {})
 
   tags = {
@@ -13,8 +13,8 @@ resource "aws_instance" "web" {
   }
 }
 
-resource "aws_security_group" "Jenkins-sg" {
-  name        = "Jenkins-sg"
+resource "aws_security_group" "tools-sg" {
+  name        = "tools-sg"
   description = "Allow TLS inbound traffic"
 
   ingress = [
@@ -39,6 +39,6 @@ resource "aws_security_group" "Jenkins-sg" {
   }
 
   tags = {
-    Name = "jenkins-sg"
+    Name = "tools-sg"
   }
 }
