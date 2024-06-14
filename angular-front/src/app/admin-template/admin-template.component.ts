@@ -10,6 +10,7 @@ export class AdminTemplateComponent implements OnInit{
   constructor(public authService: AuthenticationService) {
   }
 
+  // Init
   ngOnInit(): void {
 
   }
