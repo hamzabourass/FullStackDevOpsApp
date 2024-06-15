@@ -29,7 +29,6 @@ jobs:
         run: |
           IMAGE_TAG=714714593268.dkr.ecr.us-east-1.amazonaws.com/spring-angular:frontend_latest
           docker build -t $IMAGE_TAG ./angular-front
-          docker push $IMAGE_TAG
           echo "::set-output name=image_tag::$IMAGE_TAG"
         id: build-and-push
 
@@ -48,6 +47,12 @@ jobs:
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: 'trivy-results.sarif'
+
+      - name: Push Docker Image to ECR
+        if: success()
+        run: |
+          IMAGE_TAG=${{ steps.build-and-push.outputs.image_tag }}
+          docker push $IMAGE_TAG
 
       # Optional: Clean up Docker images
       - name: Clean up Docker images
