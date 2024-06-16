@@ -18,6 +18,12 @@ export interface Payment {
   student : Student
 }
 
+export interface User{
+  id: number,
+  email : string,
+  fullName: string,
+}
+
 export enum PaymentType {
   CASH, CHECK, TRANSFER, DEPOSIT
 }

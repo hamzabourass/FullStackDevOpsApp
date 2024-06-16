@@ -1,31 +1,35 @@
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  CanActivateFn,
-  GuardResult,
-  MaybeAsync, Router,
-  RouterStateSnapshot
-} from '@angular/router';
-import {inject, Injectable} from "@angular/core";
-import {AuthenticationService} from "../services/authentication.service";
+import { Injectable } from '@angular/core';
+import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { Observable } from 'rxjs';
+import { AuthenticationService } from '../services/authentication.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthorizationGuard implements CanActivate {
 
-export class AuthorizationGuard{
-  constructor(private authService: AuthenticationService, private router : Router) {
+  constructor(private authService: AuthenticationService, private router: Router) {}
+
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+
+    // Retrieve authorized roles for the route from route data
+    const authorizedRoles: string[] = route.data['roles'];
+    console.log('roles on route: ' + authorizedRoles)
+
+    // Retrieve roles of the authenticated user from AuthenticationService
+    const roles: string[] = this.authService.getRolesFromToken();
+
+    // Check if any of the user's roles match the authorized roles for the route
+    const isAuthorized: boolean = authorizedRoles.some(role => roles.includes(role));
+
+    if (isAuthorized) {
+      return true;  // User is authorized to access the route
+    } else {
+      // Redirect to unauthorized page or handle unauthorized access
+      this.router.navigate(['/unauthorized']);
+      return false;
+    }
   }
-
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): MaybeAsync<GuardResult> {
-   let authorize : boolean = false;
-   let authorizedRoles : string[] = route.data['roles'];
-   let roles : string[] = this.authService.roles as string[];
-   for (let i = 0 ; i < roles.length;  i++){
-     if(authorizedRoles.includes(roles[i])){
-       authorize = true;
-     }
-   }
-    return authorize;
-
-  }
-
 }

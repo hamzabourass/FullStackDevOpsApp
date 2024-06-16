@@ -7,7 +7,7 @@
   <span class="spacer"></span>
   <button mat-button routerLink="/admin/home">Home</button>
   <button mat-button routerLink="/admin/profile">Profile</button>
-  <button *ngIf="authService.roles.includes('ADMIN')" mat-button [matMenuTriggerFor]="importMenu">
+  <button *ngIf="authService.getRolesFromToken().includes('ADMIN')" mat-button [matMenuTriggerFor]="importMenu">
     <mat-icon iconPositionEnd>
       arrow_drop_down
     </mat-icon>
@@ -18,7 +18,7 @@
     <button mat-menu-item routerLink="/admin/loadPayments">Load Payments</button>
 
   </mat-menu>
-  <button mat-button *ngIf="authService.authenticated">{{authService.username}}</button>
+  <button mat-button *ngIf="authService.isAuthenticated()">{{authService.username}}</button>
   <button mat-raised-button color="accent" routerLink="/login" (click)="logout()">Logout</button>
 
 </mat-toolbar>

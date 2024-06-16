@@ -36,7 +36,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {AuthGuard} from "./guards/auth.guard";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {AuthorizationGuard} from "./guards/authorization.guard";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { StudentDetailsComponent } from './student-details/student-details.component';
 import { NewPaymentComponent } from './new-payment/new-payment.component';
 import {
@@ -49,6 +49,7 @@ import {PdfViewerModule} from "ng2-pdf-viewer";
 import {MatProgressSpinner, MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import { PaymentsDetailsComponent } from './payments-details/payments-details.component';
 import {MatGridList, MatGridListModule} from "@angular/material/grid-list";
+import {TokenInterceptor} from "./token.interceptor";
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import {MatGridList, MatGridListModule} from "@angular/material/grid-list";
   ],
     imports: [
         BrowserModule,
+        HttpClientModule,
         AppRoutingModule,
         MatToolbarModule,
         MatButtonModule,
@@ -110,7 +112,12 @@ import {MatGridList, MatGridListModule} from "@angular/material/grid-list";
 
     ],
   providers: [
-    AuthGuard,AuthorizationGuard
+    AuthGuard,AuthorizationGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent],
   schemas: [

@@ -1,35 +1,45 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import {AuthenticationService} from "../services/authentication.service";
-import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit{
+export class LoginComponent implements OnInit {
+  loginFormGroup: FormGroup;
+  errorMessage: string = '';
 
-  public loginFormGroup!: FormGroup;
-  constructor(private fb: FormBuilder, private authService: AuthenticationService,private router: Router) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthenticationService,
+    private router: Router
+  ) {
+    this.loginFormGroup = this.formBuilder.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required]
+    });
   }
 
-  // test
-  ngOnInit(): void {
-    this.loginFormGroup = this.fb.group(
-      {
-        username: this.fb.control(''),
-        password: this.fb.control('')
-      }
-    )
-  }
+  ngOnInit(): void {}
 
   login() {
-    let username = this.loginFormGroup.value.username;
-    let password = this.loginFormGroup.value.password;
-    const b = this.authService.login(username,password);
-    if(b){
-      this.router.navigateByUrl('/admin/home').then(r => console.log("logged"));
+    if (this.loginFormGroup.invalid) {
+      return;
     }
+
+    const username = this.loginFormGroup.get('username')?.value;
+    const password = this.loginFormGroup.get('password')?.value;
+
+    this.authService.login(username, password).subscribe({
+      next: () => {
+        this.router.navigate(['/admin/home']); // Navigate to dashboard or home page
+      },
+      error: (error) => {
+        this.errorMessage = 'Invalid username or password';
+      }
+    });
   }
 }
