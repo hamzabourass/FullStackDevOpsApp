@@ -1,0 +1,28 @@
+.register-container {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  height: 100vh; /* Make the container full height of the viewport */
+}
+
+mat-card {
+  width: 600px; /* Adjust the width of the card */
+}
+
+.register-button {
+  width: 100%; /* Make the button full width of its container */
+  max-width: 300px; /* Set maximum width for the button */
+  height: 50px;
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: center;
+}
+
+mat-form-field{
+  display: block;
+}
+mat-card-content{
+  padding-top: 20px;
+}

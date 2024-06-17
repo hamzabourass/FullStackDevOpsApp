@@ -14,20 +14,23 @@ export class TokenInterceptor implements HttpInterceptor {
 
   constructor(private authService: AuthenticationService) {}
 
-  intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    // Retrieve the access token from authentication service
+    const accessToken = this.authService.getAccessToken();
 
-    const idToken = this.authService.getAccessToken();
-
-    if (idToken) {
-      const cloned = req.clone({
-        headers: req.headers.set("Authorization",
-          "Bearer " + idToken)
+    // Add authorization header with JWT token if available
+    if (accessToken) {
+      request = request.clone({
+        setHeaders: {
+          Authorization: `Bearer ${accessToken}`
+        }
       });
+    }
 
-      return next.handle(cloned);
-    }
-    else {
-      return next.handle(req);
-    }
+    console.log('----------------------------------')
+    console.log('Request: ' + request);
+    console.log('----------------------------------')
+
+    return next.handle(request);
   }
 }

@@ -50,6 +50,7 @@ import {MatProgressSpinner, MatProgressSpinnerModule} from "@angular/material/pr
 import { PaymentsDetailsComponent } from './payments-details/payments-details.component';
 import {MatGridList, MatGridListModule} from "@angular/material/grid-list";
 import {TokenInterceptor} from "./token.interceptor";
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import {TokenInterceptor} from "./token.interceptor";
     LoadPaymentsComponent,
     StudentDetailsComponent,
     NewPaymentComponent,
-    PaymentsDetailsComponent
+    PaymentsDetailsComponent,
+    RegisterComponent
   ],
     imports: [
         BrowserModule,

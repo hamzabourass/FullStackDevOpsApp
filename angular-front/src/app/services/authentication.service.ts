@@ -96,7 +96,9 @@ export class AuthenticationService {
   }
 
 
-
+  register(email: string, password: string,fullName: string) {
+    return this.http.post<any>(`${this.apiUrl}/auth/signup`, { email, password, fullName });
+  }
 }
 
 

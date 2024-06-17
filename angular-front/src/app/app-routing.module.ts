@@ -14,10 +14,12 @@ import {AuthorizationGuard} from "./guards/authorization.guard";
 import {StudentDetailsComponent} from "./student-details/student-details.component";
 import {NewPaymentComponent} from "./new-payment/new-payment.component";
 import {PaymentsDetailsComponent} from "./payments-details/payments-details.component";
+import {RegisterComponent} from "./register/register.component";
 
 const routes: Routes = [
   {path:"", component: LoginComponent},
   {path:"login", component: LoginComponent},
+  {path:"register", component: RegisterComponent},
   {path:"admin", component: AdminTemplateComponent,canActivate: [AuthGuard],children: [
       {path:"home", component: HomeComponent},
       {path:"profile", component: ProfileComponent},
