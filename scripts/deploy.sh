@@ -15,15 +15,15 @@ chmod 600 ~/.ssh/id_rsa
 
 if [ "$ENVIRONMENT" = "staging" ]; then
   echo "Deploying to staging environment..."
-  scp -i ~/.ssh/id_rsa docker-compose.yml ec2-user@<staging-ec2-instance-public-dns>:/home/ec2-user/docker-compose.yml
+  scp -i ~/.ssh/id_rsa docker-compose.yml ec2-user@ec2-54-224-29-112.compute-1.amazonaws.com:/home/ec2-user/docker-compose.yml
   ssh ~/.ssh/id_rsa ec2-user@<staging-ec2-instance-public-dns> 'cd /home/ec2-user && docker-compose up -d'
 elif [ "$ENVIRONMENT" = "production" ]; then
   echo "Deploying to production environment..."
-  scp -i ~/.ssh/id_rsa docker-compose.yml ec2-user@<production-ec2-instance-public-dns>:/home/ec2-user/docker-compose.yml
+  scp -i ~/.ssh/id_rsa docker-compose.yml ec2-user@ec2-54-224-29-112.compute-1.amazonaws.com:/home/ec2-user/docker-compose.yml
   ssh ~/.ssh/id_rsa ec2-user@<production-ec2-instance-public-dns> 'cd /home/ec2-user && docker-compose up -d'
 elif [ "$ENVIRONMENT" = "development" ]; then
   echo "Deploying to development environment..."
-  scp -i ~/.ssh/id_rsa docker-compose.yml ec2-user@<development-ec2-instance-public-dns>:/home/ec2-user/docker-compose.yml
+  scp -i ~/.ssh/id_rsa docker-compose.yml ec2-user@ec2-54-224-29-112.compute-1.amazonaws.com:/home/ec2-user/docker-compose.yml
   ssh ~/.ssh/id_rsa ec2-user@<development-ec2-instance-public-dns> 'cd /home/ec2-user && docker-compose up -d'
 else
   echo "Unknown environment: $ENVIRONMENT"
