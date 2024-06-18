@@ -24,6 +24,13 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
+# Pull images
+echo "Pulling backend image..."
+docker pull $BACKEND_IMAGE_TAG
+
+echo "Pulling frontend image..."
+docker pull $FRONTEND_IMAGE_TAG
+
 # Load the SSH private key from file
 if [ -f "${SSH_PRIVATE_KEY_FILE}" ]; then
   echo "Using SSH private key from file: ${SSH_PRIVATE_KEY_FILE}"
@@ -38,7 +45,10 @@ fi
 if [ "$ENVIRONMENT" = "staging" ]; then
   echo "Deploying to staging environment..."
   scp -o StrictHostKeyChecking=no -i "${SSH_PRIVATE_KEY_FILE}" ./scripts/docker-compose.yml ubuntu@ec2-100-25-16-179.compute-1.amazonaws.com:/home/ubuntu/docker-compose.yml
-  ssh -o StrictHostKeyChecking=no -i "${SSH_PRIVATE_KEY_FILE}" ubuntu@ec2-100-25-16-179.compute-1.amazonaws.com  'sudo apt-get update && sudo apt-get install -y awscli && aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 714714593268.dkr.ecr.us-east-1.amazonaws.com && cd /home/ubuntu && docker-compose up -d'
+  ssh -o StrictHostKeyChecking=no -i "${SSH_PRIVATE_KEY_FILE}" ubuntu@ec2-100-25-16-179.compute-1.amazonaws.com '
+  export BACKEND_IMAGE_TAG=$BACKEND_IMAGE_TAG
+  export FRONTEND_IMAGE_TAG=$FRONTEND_IMAGE_TAG
+  cd /home/ec2-user && docker-compose up -d'
 elif [ "$ENVIRONMENT" = "production" ]; then
   echo "Deploying to production environment..."
   scp -o StrictHostKeyChecking=no -i "${SSH_PRIVATE_KEY_FILE}" docker-compose.yml ec2-user@ec2-54-224-29-112.compute-1.amazonaws.com:/home/docker-compose.yml
