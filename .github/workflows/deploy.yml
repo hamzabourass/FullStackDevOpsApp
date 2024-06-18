@@ -17,6 +17,8 @@ jobs:
         
       - name: Set Environment Variables
         run: |
+          echo "${{ github.event.client_payload.image_tag }}" > image_tag.txt
+          echo "${{ github.event.client_payload.environment }}" > environment.txt
           IMAGE_TAG=${{ github.event.client_payload.image_tag }}
           ENVIRONMENT=${{ github.event.client_payload.environment }}
           echo "Deploying to environment: $ENVIRONMENT"
@@ -31,6 +33,6 @@ jobs:
         run: |
           ls -l ./scripts  # List contents of the scripts directory
           chmod +x ./scripts/deploy.sh
-          ./scripts/deploy.sh "$ENVIRONMENT" "$IMAGE_TAG"
+          ./scripts/deploy.sh $(cat environment.txt) $(cat image_tag.txt)
         env:
           SSH_PRIVATE_KEY_FILE: ./ssh_key.pem
