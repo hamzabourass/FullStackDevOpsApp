@@ -25,7 +25,7 @@ fi
 
 if [ "$ENVIRONMENT" = "staging" ]; then
   echo "Deploying to staging environment..."
-  scp -o StrictHostKeyChecking=no -i "${SSH_PRIVATE_KEY_FILE}" docker-compose.yml ubuntu@ec2-100-25-16-179.compute-1.amazonaws.com:/home/docker-compose.yml
+  scp -o StrictHostKeyChecking=no -i "${SSH_PRIVATE_KEY_FILE}" ./scripts/docker-compose.yml ubuntu@ec2-100-25-16-179.compute-1.amazonaws.com:/home/docker-compose.yml
   ssh -o StrictHostKeyChecking=no -i "${SSH_PRIVATE_KEY_FILE}" ubuntu@ec2-100-25-16-179.compute-1.amazonaws.com 'cd /home && docker-compose up -d'
 elif [ "$ENVIRONMENT" = "production" ]; then
   echo "Deploying to production environment..."
