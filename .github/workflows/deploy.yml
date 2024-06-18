@@ -31,6 +31,6 @@ jobs:
         run: |
           ls -l ./scripts  # List contents of the scripts directory
           chmod +x ./scripts/deploy.sh
-          ./scripts/deploy.sh $ENVIRONMENT $IMAGE_TAG
+          ./scripts/deploy.sh "$ENVIRONMENT" "$IMAGE_TAG"
         env:
           SSH_PRIVATE_KEY_FILE: ./ssh_key.pem
