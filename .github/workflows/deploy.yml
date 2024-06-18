@@ -21,13 +21,17 @@ jobs:
           ENVIRONMENT=${{ github.event.client_payload.environment }}
           echo "Deploying to environment: $ENVIRONMENT"
           echo "Deploying Docker image: $IMAGE_TAG"
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ./ssh_key.pem
+
         env:
           IMAGE_TAG: ${{ github.event.client_payload.image_tag }}
           ENVIRONMENT: ${{ github.event.client_payload.environment }}
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Deploy Application
         run: |
           ls -l ./scripts  # List contents of the scripts directory
+          chmod 600 ./ssh_key.pem
           chmod +x ./scripts/deploy.sh
           ./scripts/deploy.sh $ENVIRONMENT $IMAGE_TAG
+        env:
+          SSH_PRIVATE_KEY_FILE: ./ssh_key.pem
