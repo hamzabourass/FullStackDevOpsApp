@@ -46,8 +46,7 @@ if [ "$ENVIRONMENT" = "staging" ]; then
   echo "Deploying to staging environment..."
   scp -o StrictHostKeyChecking=no -i "${SSH_PRIVATE_KEY_FILE}" ./scripts/docker-compose.yml ubuntu@ec2-100-25-16-179.compute-1.amazonaws.com:/home/ubuntu/docker-compose.yml
   ssh -o StrictHostKeyChecking=no -i "${SSH_PRIVATE_KEY_FILE}" ubuntu@ec2-100-25-16-179.compute-1.amazonaws.com '
-  export BACKEND_IMAGE_TAG=$BACKEND_IMAGE_TAG
-  export FRONTEND_IMAGE_TAG=$FRONTEND_IMAGE_TAG
+  aws ecr get-login-password --region $aws_region | docker login --username AWS --password-stdin ${aws_account_id}.dkr.ecr.${aws_region}.amazonaws.com/${ecr_repo_name}
   cd /home/ubuntu && docker-compose up -d'
 elif [ "$ENVIRONMENT" = "production" ]; then
   echo "Deploying to production environment..."
