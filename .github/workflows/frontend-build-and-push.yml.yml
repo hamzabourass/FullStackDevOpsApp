@@ -53,3 +53,10 @@ jobs:
       - name: Clean up Docker images
         if: always()
         run: docker rmi ${{ steps.build-and-push.outputs.image_tag }}
+
+      - name: Trigger Deploy Workflow
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          event-type: deploy
+          client-payload: '{"image_tag": "${{ steps.build-and-push.outputs.image_tag }}", "environment": "staging"}'

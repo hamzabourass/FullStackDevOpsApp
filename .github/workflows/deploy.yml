@@ -1,0 +1,42 @@
+name: Deploy Application
+
+on:
+  repository_dispatch:
+    types: [deploy]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set Environment Variables
+        run: |
+          IMAGE_TAG=${{ github.event.client_payload.image_tag }}
+          ENVIRONMENT=${{ github.event.client_payload.environment }}
+          echo "Deploying to environment: $ENVIRONMENT"
+          echo "Deploying Docker image: $IMAGE_TAG"
+        env:
+          IMAGE_TAG: ${{ github.event.client_payload.image_tag }}
+          ENVIRONMENT: ${{ github.event.client_payload.environment }}
+
+      - name: Deploy Application
+        run: |
+          if [ "$ENVIRONMENT" = "staging" ]; then
+            echo "Deploying to staging environment..."
+            # Add your staging deployment script here
+            # For example, using kubectl to deploy to Kubernetes staging environment:
+            # kubectl set image deployment/your-deployment your-container=$IMAGE_TAG --namespace=staging --record
+          elif [ "$ENVIRONMENT" = "production" ]; then
+            echo "Deploying to production environment..."
+            # Add your production deployment script here
+            # For example, using kubectl to deploy to Kubernetes production environment:
+            # kubectl set image deployment/your-deployment your-container=$IMAGE_TAG --namespace=production --record
+          else
+            echo "Deploying to development environment..."
+            # Add your development deployment script here
+            # For example, using kubectl to deploy to Kubernetes development environment:
+            # kubectl set image deployment/your-deployment your-container=$IMAGE_TAG --namespace=development --record
+          fi
