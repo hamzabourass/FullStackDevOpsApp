@@ -20,7 +20,6 @@ services:
       SPRING_DATASOURCE_USERNAME: admin
       SPRING_DATASOURCE_PASSWORD: admin-root
       SPRING_JPA_HIBERNATE_DDL_AUTO: create
-      SPRING_H2_CONSOLE_ENABLED: true
       SERVER_PORT: 8787
       SPRING_MVC_FORMAT_DATE: d/M/yyyy
     depends_on:
