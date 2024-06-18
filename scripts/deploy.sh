@@ -12,6 +12,20 @@ echo "Image tag received: $IMAGE_TAG"
 export BACKEND_IMAGE_TAG=714714593268.dkr.ecr.us-east-1.amazonaws.com/spring-angular:backend_latest
 export FRONTEND_IMAGE_TAG=714714593268.dkr.ecr.us-east-1.amazonaws.com/spring-angular:frontend_latest
 
+# AWS ECR login
+aws_region="us-east-1"
+aws_account_id="714714593268"
+ecr_repo_name="spring-angular"
+
+echo "Logging into Amazon ECR..."
+aws ecr get-login-password --region $aws_region | docker login --username AWS --password-stdin ${aws_account_id}.dkr.ecr.${aws_region}.amazonaws.com/${ecr_repo_name}
+
+# shellcheck disable=SC2181
+if [ $? -ne 0 ]; then
+  echo "ECR login failed"
+  exit 1
+fi
+
 # Load the SSH private key from file
 if [ -f "${SSH_PRIVATE_KEY_FILE}" ]; then
   echo "Using SSH private key from file: ${SSH_PRIVATE_KEY_FILE}"
