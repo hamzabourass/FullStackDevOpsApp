@@ -1,6 +1,7 @@
 resource "aws_instance" "tools" {
   ami                    = "ami-04b70fa74e45c3917"   #change ami id for different region
   instance_type          = "t2.medium"
+  key_name               = "keys"
   vpc_security_group_ids = [aws_security_group.tools-sg.id]
   user_data              = templatefile("./install.sh", {})
 

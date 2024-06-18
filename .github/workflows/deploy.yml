@@ -21,22 +21,9 @@ jobs:
         env:
           IMAGE_TAG: ${{ github.event.client_payload.image_tag }}
           ENVIRONMENT: ${{ github.event.client_payload.environment }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Deploy Application
         run: |
-          if [ "$ENVIRONMENT" = "staging" ]; then
-            echo "Deploying to staging environment..."
-            # Add your staging deployment script here
-            # For example, using kubectl to deploy to Kubernetes staging environment:
-            # kubectl set image deployment/your-deployment your-container=$IMAGE_TAG --namespace=staging --record
-          elif [ "$ENVIRONMENT" = "production" ]; then
-            echo "Deploying to production environment..."
-            # Add your production deployment script here
-            # For example, using kubectl to deploy to Kubernetes production environment:
-            # kubectl set image deployment/your-deployment your-container=$IMAGE_TAG --namespace=production --record
-          else
-            echo "Deploying to development environment..."
-            # Add your development deployment script here
-            # For example, using kubectl to deploy to Kubernetes development environment:
-            # kubectl set image deployment/your-deployment your-container=$IMAGE_TAG --namespace=development --record
-          fi
+          chmod +x ./deploy.sh
+          ./deploy.sh $ENVIRONMENT $IMAGE_TAG
