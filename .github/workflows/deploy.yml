@@ -36,3 +36,6 @@ jobs:
           ./scripts/deploy.sh $(cat environment.txt) $(cat image_tag.txt)
         env:
           SSH_PRIVATE_KEY_FILE: ./ssh_key.pem
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: 'us-east-1'

@@ -1,7 +1,5 @@
 #!/bin/bash
 
-
-
 ENVIRONMENT=$1
 IMAGE_TAG=$2
 
