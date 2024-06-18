@@ -25,5 +25,5 @@ jobs:
 
       - name: Deploy Application
         run: |
-          chmod +x ./deploy.sh
-          ./deploy.sh $ENVIRONMENT $IMAGE_TAG
+          chmod +x ./scripts/deploy.sh
+          ./scripts/deploy.sh $ENVIRONMENT $IMAGE_TAG

@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'angular-front/**'
+#    paths:
+#      - 'angular-front/**'
   pull_request:
     branches:
       - main
